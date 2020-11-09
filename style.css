@@ -1,0 +1,164 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+  }
+
+  /* html{
+    font-family: 'Karla', sans-serif;
+  } */
+
+  a:active, a:focus {
+    outline: 0;
+    border: none;
+    -moz-outline-style: none;
+  }
+
+  *:focus {outline:none}
+
+/* RESET ABOVE */
+
+
+
+body{
+    background-color:lightblue;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+#title{
+    font-size: 50px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+#game-container{
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
+    width:80%;
+    height:80%;
+    /* border:solid; */
+  
+}
+
+#board-container{
+
+    width:375px;;
+    height: 375px;;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    /* border:solid; */
+    align-items: center;
+    padding:30px;
+  
+}
+
+
+/* border style for grid */
+
+.cell:nth-child(1){border-left:none; border-top:none;}
+.cell:nth-child(2){border-top:none;}
+.cell:nth-child(3){border-top:none;border-right:none;}
+.cell:nth-child(4){border-left:none;}
+.cell:nth-child(6){border-right:none;}
+.cell:nth-child(7){border-bottom:none;border-left:none;}
+.cell:nth-child(8){border-bottom:none;}
+.cell:nth-child(9){border-bottom:none;border-right:none;}
+
+
+/* ----------------------------- */
+
+.cell{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border:solid;
+    width:100px;
+    font-size: 70px;
+    height:100px;
+}
+
+.win{
+    font-weight: bold;
+}
+
+
+
+
+#form-container{
+    display:none;
+}
+
+#player-details{
+    display:flex;
+    flex-direction: column;
+    
+}
+
+.btn-start-game{
+    display: flex;
+
+}
+
+
+#players-names-container{
+    font-size: 20px;
+    width: 75%;
+    height: 20px;
+    display:flex;
+    justify-content: space-between;
+    color: rgb(32, 31, 31);
+
+
+}
