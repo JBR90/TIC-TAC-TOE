@@ -1,5 +1,4 @@
 // Player factory
-
 const Player = (name,symb)=>{
     const getName = () => name;
     const getSymb = () => symb;
@@ -7,41 +6,51 @@ const Player = (name,symb)=>{
     return {getName,getSymb}
 };
 
-// Game Board
 
+
+
+
+
+// Game Board
 const GameBoard = (()=>{
     'use strick'
-
+    
+    //adds and displays wining message to board
+    const boardMessage = (message)=>{
+        board = board.map((x,i)=> x = message[i] );
+        DisplayController.updateDisplayBoard(GameBoard.getBoard())
+    }
+    //board array
     let board = [
                  "","","",       // 0,1,2
                  "","","",       // 3,4,5
                  "","","",       // 6,7,8
                 ]
-    const winnerMessage = ["G","A","M","E","O","V","E","R","!"]
-            
+           
+    // gets board
     const getBoard = () =>{
         return board;
     }
 
-    const boardMessage = ()=>{
-        board = board.map((x,i)=> x = winnerMessage[i] );
-        DisplayController.updateDisplayBoard(GameBoard.getBoard())
-    }
 
+    //returns contence of cell on board
     const getCellContence = (index)=>{
         return board[index]
     }
 
+    //updates board with new play and displays
     const updateBoard = (index,player) =>{
         board[index] = player;
         DisplayController.updateDisplayBoard(GameBoard.getBoard())
     }
 
+    // resets board
     const resetBoard = ()=>{
         board = board.map( x => x = "");
         DisplayController.updateDisplayBoard(GameBoard.getBoard())
     }
 
+    //checks for winner
     const checkForWin = (player) =>{
 
         if(player==1){
@@ -49,6 +58,9 @@ const GameBoard = (()=>{
         }else{
             sym = "ooo"
         }
+
+    
+        console.log
 
         let win = false
         let v = 0
@@ -78,27 +90,25 @@ const GameBoard = (()=>{
             v+=1
             d1+=1
             d2+=1 
+            console.log(win)
             
         }
-        console.log(win)
-        console.log
+
         if(win == true){
-            GameFlow.gameOver()
+            GameFlow.gameOver(win)
         }
         if(board.includes("") == false){
-            GameFlow.draw()
+            GameFlow.gameOver(win)
                 
         }else{
             GameFlow.setPlayerTurn()
-            DisplayController.startListeners()
-
-            
+            DisplayController.startListeners()  
         }
 
-        if(board.includes("") == false){
-            GameFlow.draw
+        // if(board.includes("") == false){
+        //     GameFlow.draw
             
-        }  
+        // }  
     }
 
     return {
@@ -116,6 +126,11 @@ const DisplayController = (()=>{
     const boardContainer = document.querySelector('#board-container');
     const player1Name = document.getElementById('p1-name');
     const player2Name = document.getElementById('p2-name');
+    const btnStartGame = document.querySelector('#btn-start-game');
+    const playerForm = document.getElementById('form-container');
+    const btnSubmitPlayers = document.querySelector('#btn-submit-players');
+    const gameContainer = document.querySelector('#game-container')
+    const btnPlayAgain = document.querySelector('#btn-play-again');
 
     const setActiveClass = (player)=>{
         if(player == 1){
@@ -182,29 +197,48 @@ const DisplayController = (()=>{
             s = "o"
         }
                 GameBoard.updateBoard(index,s)
-                GameBoard.checkForWin(GameFlow.getPlayerTurn())
-        // if(GameFlow.getPlayerMode() == 0){
-        //     if(GameBoard.getCellContence(index)== ""){
-                
-                
-        //     }
-        // }   
-        // }else{
-        //     // if(GameFlow.getPlayerTurn()==1){
-        //     //     GameBoard.updateBoard(index,s)
-        //     //     GameBoard.checkForWin(GameFlow.getPlayerTurn())
-        //     // }else{
-        //     //     index = AI.getMove()
-        //     //     GameBoard.updateBoard(index,s)
-        //     //     GameBoard.checkForWin(GameFlow.getPlayerTurn())
-        //     // }
-        // }
-        
-        // boardContainer.removeEventListener('click',getMark);
-        
-        
-        
+                GameBoard.checkForWin(GameFlow.getPlayerTurn()) 
     }
+
+    const startBtn = ()=>{
+        btnStartGame.addEventListener('click', () => {
+            btnStartGame.style.display = "none";
+            playerForm.style.display = "flex"
+            
+        })
+    }
+
+    const playAgainBtn = ()=>{
+        btnPlayAgain.addEventListener('click', () => {
+            btnPlayAgain.style.display = "none";
+            GameBoard.resetBoard()
+            btnStartGame.style.display = "flex";
+           
+            gameContainer.style.display = "none"
+    
+           
+            
+        })
+    }
+    const showPlayerForm = ()=>{
+
+        btnSubmitPlayers.addEventListener('click', () => {
+            // btnSubmitPlayers.style.display = "none";
+            playerForm.style.display = "none"
+            btnStartGame.style.display = "none";
+            let player1NameForm = document.getElementById('player1').value;
+            let player2NameForm = document.getElementById('player2').value;
+    
+            player1Name.textContent = player1NameForm
+            player2Name.textContent = player2NameForm
+            GameFlow.createPlayers(player1NameForm,player2NameForm)
+            gameContainer.style.display = "flex";
+     
+
+            
+
+
+        })}
     
     //eventListeners
     const startListeners = ()=>{
@@ -225,6 +259,9 @@ const DisplayController = (()=>{
         stopListeners,
         updateWinnnrDisplay,
         setActiveClass,
+        startBtn,
+        showPlayerForm,
+        playAgainBtn,
     }
 
 })();
@@ -233,6 +270,8 @@ const GameFlow =  (()=>{
 
     let playerMode = 0;    // '0 = two player' '1 = AI'
     let playerTurn = 1;
+    const winnerMessage = ["G","A","M","E","O","V","E","R","!"]
+    const drawMessage = ["D","-","R","-","A","-","W","-","!"]
 
     const startGame = ()=>{
     }
@@ -244,16 +283,19 @@ const GameFlow =  (()=>{
     }
 
     const init = ()=>{
+        DisplayController.startBtn()
         DisplayController.updateDisplayBoard(GameBoard.getBoard())
-        GameFlow.createPlayers()
+        DisplayController.showPlayerForm()
         DisplayController.startListeners()
         DisplayController.setActiveClass(playerTurn)
+        DisplayController.playAgainBtn()
         
     }
 
-    const gameOver = ()=>{
+    const gameOver = (win)=>{
         console.log("Game Over")
-        GameBoard.boardMessage()
+        console.log("win" + win)
+        win == true ? GameBoard.boardMessage(winnerMessage):GameBoard.boardMessage(drawMessage);
         DisplayController.updateWinnnrDisplay(playerTurn)
         DisplayController.stopListeners()
     }
@@ -279,8 +321,9 @@ const GameFlow =  (()=>{
     }
 
     const createPlayers = (p1,p2) =>{
-        player1 = Player(p1 = "Player 1","x")
-        player2 = Player(p2 = "Player 2","o")
+        console.log(p1+"player")
+        player1 = Player(p1,"x")
+        player2 = Player(p2 ,"o")
     }
 
 
