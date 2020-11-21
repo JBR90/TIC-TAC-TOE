@@ -6,3 +6,6 @@ To Do
 - Research better ways of structuring orgainising code
 - The code needs refactoring
 - AI using minimax algorithm
+- Bug - cant place twice without refresh
+
+https://jbr90.github.io/TIC-TAC-TOE/.
